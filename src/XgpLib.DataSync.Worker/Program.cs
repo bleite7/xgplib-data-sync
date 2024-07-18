@@ -1,4 +1,7 @@
+using IGDB;
 using Serilog;
+using XgpLib.DataSync.Worker.Core.Domain.Services;
+using XgpLib.DataSync.Worker.Core.Infrastructure.Services;
 
 namespace XgpLib.DataSync.Worker;
 
@@ -14,7 +17,13 @@ public class Program
                 .CreateLogger();
 
             var builder = Host.CreateApplicationBuilder(args);
-            builder.Services.AddHostedService<Worker>();
+            
+            builder.Services.AddSingleton(new IGDBClient(
+                builder.Configuration["Igdb:ClientId"], 
+                builder.Configuration["Igdb:ClientSecret"]));
+
+            builder.Services.AddTransient<IIgdbService, IgdbService>();
+            builder.Services.AddHostedService<SyncWorker>();
             builder.Services.AddSerilog();
 
             var host = builder.Build();
