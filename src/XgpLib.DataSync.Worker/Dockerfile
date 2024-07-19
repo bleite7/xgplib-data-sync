@@ -15,6 +15,7 @@ RUN dotnet restore
 RUN dotnet publish -c Release -o out
 
 FROM base AS final
+USER app
 WORKDIR /app
 COPY --from=build-env /app/out .
 ENTRYPOINT ["dotnet", "XgpLib.DataSync.Worker.dll"]

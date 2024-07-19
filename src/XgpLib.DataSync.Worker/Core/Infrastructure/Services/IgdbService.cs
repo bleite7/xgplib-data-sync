@@ -1,5 +1,4 @@
 using IGDB;
-using IGDB.Models;
 using System.Diagnostics;
 using XgpLib.DataSync.Worker.Core.Domain.Services;
 
@@ -9,33 +8,50 @@ public class IgdbService(
     ILogger<IgdbService> logger,
     IGDBClient igdbClient) : IIgdbService
 {
-    private readonly int _limit = 50;
+    private const int _limit = 100;
 
-    public async Task<List<Genre>> ListAllGenres()
+    public async Task<List<T>> ListAll<T>(
+        string endpoint,
+        string[] fields,
+        string additionalQuery = "") where T : class
     {
         Stopwatch stopWatch = new();
         stopWatch.Start();
 
         var offset = 0;
-        List<Genre> genres = [];
-        Genre[] igdbGenres = [];
+        List<T> items = [];
+        T[] igdbItems = [];
         try
         {
+            logger.LogInformation(
+                "Fetching {entityName}(s) from IGDB",
+                typeof(T).Name);
+
             do
             {
-                igdbGenres = await igdbClient.QueryAsync<Genre>(
-                    IGDBClient.Endpoints.Genres,
-                    $"fields id, name; offset {offset}; limit {_limit};");
+                string query = BuildQuery(fields, offset, additionalQuery);
+                igdbItems = await igdbClient.QueryAsync<T>(
+                    endpoint,
+                    query);
 
-                genres.AddRange(igdbGenres);
+                items.AddRange(igdbItems);
                 offset += _limit;
-            } while (igdbGenres.Length == _limit);
+            } while (igdbItems.Length == _limit);
 
-            return genres;
+            logger.LogInformation(
+                "Fetched {count} {entityName}(s) from IGDB", 
+                items.Count, 
+                typeof(T).Name);
+
+            return items;
         }
         catch (Exception ex)
         {
-            logger.LogError(ex, "Error while fetching genres from IGDB");
+            logger.LogError(
+                ex,
+                "Error while fetching {entityName}(s) from IGDB",
+                typeof(T).Name);
+
             throw;
         }
         finally
@@ -43,9 +59,23 @@ public class IgdbService(
             stopWatch.Stop();
 
             logger.LogInformation(
-                "{methodName} took {elapsed} ms",
-                nameof(ListAllGenres),
+                "{methodName} of {entityName}(s) took {elapsed} ms",
+                nameof(ListAll),
+                typeof(T).Name,
                 stopWatch.ElapsedMilliseconds);
         }
     }
+
+    #region Private Methods
+
+    private string BuildQuery(
+        string[] fields,
+        int offset,
+        string additionalQuery)
+    {
+        var baseQuery = $"fields {string.Join(',', fields)};offset {offset};limit {_limit};";
+        return string.IsNullOrEmpty(additionalQuery) ? baseQuery : $"{baseQuery}{additionalQuery}";
+    }
+
+    #endregion
 }
