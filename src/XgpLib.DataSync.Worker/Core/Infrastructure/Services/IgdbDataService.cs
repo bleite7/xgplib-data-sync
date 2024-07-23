@@ -4,13 +4,13 @@ using XgpLib.DataSync.Worker.Core.Domain.Services;
 
 namespace XgpLib.DataSync.Worker.Core.Infrastructure.Services;
 
-public class IgdbService(
-    ILogger<IgdbService> logger,
-    IGDBClient igdbClient) : IIgdbService
+public class IgdbDataService(
+    ILogger<IgdbDataService> logger,
+    IGDBClient igdbClient) : IIgdbDataService
 {
     private const int _limit = 100;
 
-    public async Task<List<T>> ListAll<T>(
+    public async Task<List<T>> ListAllAsync<T>(
         string endpoint,
         string[] fields,
         string additionalQuery = "") where T : class
@@ -18,7 +18,7 @@ public class IgdbService(
         Stopwatch stopWatch = new();
         stopWatch.Start();
 
-        var offset = 0;
+        int offset = 0;
         List<T> items = [];
         T[] igdbItems = [];
         try
@@ -39,8 +39,8 @@ public class IgdbService(
             } while (igdbItems.Length == _limit);
 
             logger.LogInformation(
-                "Fetched {count} {entityName}(s) from IGDB", 
-                items.Count, 
+                "Fetched {count} {entityName}(s) from IGDB",
+                items.Count,
                 typeof(T).Name);
 
             return items;
@@ -60,7 +60,7 @@ public class IgdbService(
 
             logger.LogInformation(
                 "{methodName} of {entityName}(s) took {elapsed} ms",
-                nameof(ListAll),
+                nameof(ListAllAsync),
                 typeof(T).Name,
                 stopWatch.ElapsedMilliseconds);
         }

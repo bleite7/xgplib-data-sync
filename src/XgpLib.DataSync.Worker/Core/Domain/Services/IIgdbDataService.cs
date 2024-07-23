@@ -1,10 +1,8 @@
-using IGDB.Models;
-
 namespace XgpLib.DataSync.Worker.Core.Domain.Services;
 
-public interface IIgdbService
+public interface IIgdbDataService
 {
-    Task<List<T>> ListAll<T>(
+    Task<List<T>> ListAllAsync<T>(
         string endpoint,
         string[] fields,
         string additionalQuery = "") where T : class;
