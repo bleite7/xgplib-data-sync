@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using IGDB;
 using XgpLib.DataSync.Worker.Core.Domain.Repositories;
 using XgpLib.DataSync.Worker.Core.Domain.Services;
@@ -11,6 +12,9 @@ public class IgdbGenresService(
 {
     public async Task SyncIgdbGenresAsync()
     {
+        Stopwatch stopWatch = new();
+        stopWatch.Start();
+
         try
         {
             List<IGDB.Models.Genre> genres = await igdbDataService.ListAllAsync<IGDB.Models.Genre>(
@@ -33,6 +37,14 @@ public class IgdbGenresService(
         {
             logger.LogError(ex, "Error while syncing genres");
             throw;
+        }
+        finally
+        {
+            stopWatch.Stop();
+            logger.LogInformation(
+                "{methodName} elapsed time: {elapsedTime}",
+                nameof(SyncIgdbGenresAsync),
+                stopWatch.Elapsed);
         }
     }
 }

@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using IGDB;
 using XgpLib.DataSync.Worker.Core.Domain.Repositories;
 using XgpLib.DataSync.Worker.Core.Domain.Services;
@@ -11,6 +12,9 @@ public class IgdbGamesService(
 {
     public async Task SyncIgdbGamesByPlatformAsync(long platformId)
     {
+        Stopwatch stopWatch = new();
+        stopWatch.Start();
+
         try
         {
             List<IGDB.Models.Game> games = await igdbDataService.ListAllAsync<IGDB.Models.Game>(
@@ -34,6 +38,14 @@ public class IgdbGamesService(
         {
             logger.LogError(ex, "Error while syncing games");
             throw;
+        }
+        finally
+        {
+            stopWatch.Stop();
+            logger.LogInformation(
+                "{methodName} elapsed time: {elapsedTime}",
+                nameof(SyncIgdbGamesByPlatformAsync),
+                stopWatch.Elapsed);
         }
     }
 }

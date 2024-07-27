@@ -9,15 +9,10 @@ public class SyncWorker(
 {
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        try
-        {
-            await igdbSyncService.SyncIgdbDataAsync();
-        }
-        catch (Exception ex)
-        {
-            logger.LogError(ex, "Error while syncing IGDB data");
-            throw;
-        }
+        logger.LogInformation("SyncWorker is starting.");
+
+        // Sync IGDB data
+        await igdbSyncService.SyncIgdbDataAsync();
 
         // When completed, the entire app host will stop.
         hostApplicationLifetime.StopApplication();
