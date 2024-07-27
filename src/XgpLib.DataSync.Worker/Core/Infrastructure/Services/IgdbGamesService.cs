@@ -26,7 +26,7 @@ public class IgdbGamesService(
             {
                 await gamesRepository.ReplaceOneAsync(new Domain.Game(
                     game.Id,
-                    game.Name));
+                    game.Name), true);
 
                 logger.LogInformation(
                     "Game {id} {name}",

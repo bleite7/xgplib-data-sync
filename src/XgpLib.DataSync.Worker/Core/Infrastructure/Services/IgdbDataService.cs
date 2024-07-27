@@ -1,5 +1,6 @@
 using IGDB;
 using System.Diagnostics;
+using XgpLib.DataSync.Worker.Core.Domain;
 using XgpLib.DataSync.Worker.Core.Domain.Services;
 
 namespace XgpLib.DataSync.Worker.Core.Infrastructure.Services;

@@ -1,6 +1,6 @@
 namespace XgpLib.DataSync.Worker.Core.Domain;
 
-public class Genre : Document
+public class Genre : BaseEntity
 {
     public string Name { get; set; }
 

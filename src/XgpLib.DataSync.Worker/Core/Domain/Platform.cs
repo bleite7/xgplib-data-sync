@@ -1,6 +1,6 @@
 namespace XgpLib.DataSync.Worker.Core.Domain;
 
-public class Game : Document
+public class Game : BaseEntity
 {
     public string Name { get; set; }
 

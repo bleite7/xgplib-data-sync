@@ -5,7 +5,7 @@ using XgpLib.DataSync.Worker.Core.Domain;
 namespace XgpLib.DataSync.Worker.Core.Infrastructure.Repositories;
 
 public class MongoRepository<T> :
-    IMongoRepository<T> where T : IDocument
+    IMongoRepository<T> where T : IBaseEntity
 {
     private readonly IConfiguration _configuration;
     private readonly IMongoCollection<T> _collection;
@@ -18,11 +18,11 @@ public class MongoRepository<T> :
         _collection = database.GetCollection<T>(typeof(T).Name.ToLower());
     }
 
-    public async Task ReplaceOneAsync(T document)
+    public async Task ReplaceOneAsync(T document, bool IsUpsert = false)
     {
         FindOneAndReplaceOptions<T, T> options = new()
         {
-            IsUpsert = true
+            IsUpsert = IsUpsert
         };
         FilterDefinition<T> filter = Builders<T>.Filter.Eq(o => o.Id, document.Id);
         await _collection.FindOneAndReplaceAsync(filter, document, options);

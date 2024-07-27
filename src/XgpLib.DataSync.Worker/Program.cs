@@ -1,7 +1,9 @@
+using System.Runtime.CompilerServices;
 using IGDB;
 using Serilog;
 using XgpLib.DataSync.Worker.Core.Domain.Repositories;
 using XgpLib.DataSync.Worker.Core.Domain.Services;
+using XgpLib.DataSync.Worker.Core.Infrastructure;
 using XgpLib.DataSync.Worker.Core.Infrastructure.Repositories;
 using XgpLib.DataSync.Worker.Core.Infrastructure.Services;
 
@@ -13,35 +15,21 @@ public class Program
     {
         try
         {
+            // Register Serilog
             Log.Logger = new LoggerConfiguration()
                 .Enrich.FromLogContext()
                 .WriteTo.Console()
                 .CreateLogger();
 
+            // Create the host builder
             var builder = Host.CreateApplicationBuilder(args);
 
-            builder.Services.AddSingleton(new IGDBClient(
-                builder.Configuration["Igdb:ClientId"],
-                builder.Configuration["Igdb:ClientSecret"]));
+            // Add infrastructure services
+            DependencyInjection.AddInfrastructureServices(
+                builder.Services,
+                builder.Configuration);
 
-            // Register repositories
-            builder.Services.AddTransient<IMongoRepository<Core.Domain.Genre>, MongoRepository<Core.Domain.Genre>>();
-            builder.Services.AddTransient<IMongoRepository<Core.Domain.Platform>, MongoRepository<Core.Domain.Platform>>();
-            builder.Services.AddTransient<IMongoRepository<Core.Domain.Game>, MongoRepository<Core.Domain.Game>>();
-
-            // Register services
-            builder.Services.AddTransient<IIgdbGenresService, IgdbGenresService>();
-            builder.Services.AddTransient<IIgdbPlatformsService, IgdbPlatformsService>();
-            builder.Services.AddTransient<IIgdbGamesService, IgdbGamesService>();
-
-            // Register data services
-            builder.Services.AddTransient<IIgdbDataService, IgdbDataService>();
-            builder.Services.AddTransient<IIgdbSyncService, IgdbSyncService>();
-
-            // Register worker
-            builder.Services.AddHostedService<SyncWorker>();
-            builder.Services.AddSerilog();
-
+            // Build and run the host
             var host = builder.Build();
             host.Run();
         }

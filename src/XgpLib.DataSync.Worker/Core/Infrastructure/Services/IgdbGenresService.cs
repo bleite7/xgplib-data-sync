@@ -25,7 +25,7 @@ public class IgdbGenresService(
             {
                 await genresRepository.ReplaceOneAsync(new Domain.Genre(
                     genre.Id,
-                    genre.Name));
+                    genre.Name), true);
 
                 logger.LogInformation(
                     "Genre {id} {name}",

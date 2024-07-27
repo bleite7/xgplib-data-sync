@@ -25,7 +25,7 @@ public class IgdbPlatformsService(
             {
                 await platformsRepository.ReplaceOneAsync(new Domain.Platform(
                     platform.Id,
-                    platform.Name));
+                    platform.Name), true);
 
                 logger.LogInformation(
                     "Platform {id} {name}",
