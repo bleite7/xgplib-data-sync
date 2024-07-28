@@ -2,5 +2,5 @@ namespace XgpLib.DataSync.Domain.Services;
 
 public interface IIgdbPlatformsService
 {
-    Task SyncIgdbPlatformsAsync();
+    Task SyncIgdbPlatformsAsync(CancellationToken stoppingToken);
 }

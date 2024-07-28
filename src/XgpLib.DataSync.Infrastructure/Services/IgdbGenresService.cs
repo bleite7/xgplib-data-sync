@@ -8,7 +8,7 @@ public class IgdbGenresService(
     IIgdbDataService igdbDataService,
     IMongoRepository<Genre> genresRepository) : IIgdbGenresService
 {
-    public async Task SyncIgdbGenresAsync()
+    public async Task SyncIgdbGenresAsync(CancellationToken stoppingToken)
     {
         Stopwatch stopWatch = new();
         stopWatch.Start();
@@ -23,7 +23,7 @@ public class IgdbGenresService(
             {
                 await genresRepository.ReplaceOneAsync(new Genre(
                     genre.Id,
-                    genre.Name), true);
+                    genre.Name), stoppingToken, true);
 
                 logger.LogInformation(
                     "Genre {id} {name}",

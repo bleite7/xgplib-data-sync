@@ -1,6 +1,5 @@
 using Serilog;
 using Serilog.Events;
-using System.Diagnostics;
 
 namespace XgpLib.DataSync.Worker;
 
@@ -18,7 +17,7 @@ public class Program
                 .Enrich.FromLogContext()
                 // Write logs to MongoDB
                 .WriteTo.MongoDBBson(
-                    $"{builder.Configuration["MongoDB:ConnectionString"]}/logs?authSource=admin", 
+                    $"{builder.Configuration["MongoDB:ConnectionString"]}/logs?authSource=admin",
                     restrictedToMinimumLevel: LogEventLevel.Warning)
                 .WriteTo.Console()
                 .CreateLogger();

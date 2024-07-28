@@ -8,7 +8,7 @@ public class IgdbGamesService(
     IIgdbDataService igdbDataService,
     IMongoRepository<Game> gamesRepository) : IIgdbGamesService
 {
-    public async Task SyncIgdbGamesByPlatformAsync(long platformId)
+    public async Task SyncIgdbGamesByPlatformAsync(long platformId, CancellationToken stoppingToken)
     {
         Stopwatch stopWatch = new();
         stopWatch.Start();
@@ -24,7 +24,7 @@ public class IgdbGamesService(
             {
                 await gamesRepository.ReplaceOneAsync(new Game(
                     game.Id,
-                    game.Name), true);
+                    game.Name), stoppingToken, true);
 
                 logger.LogInformation(
                     "Game {id} {name}",

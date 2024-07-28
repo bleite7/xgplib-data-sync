@@ -10,16 +10,16 @@ public class SyncData(
 {
     private const long _xboxSeriesPlatformId = 169;
 
-    public async Task SyncIgdbDataAsync()
+    public async Task SyncIgdbDataAsync(CancellationToken stoppingToken)
     {
         Stopwatch stopWatch = new();
         stopWatch.Start();
 
         try
         {
-            await igdbGenresService.SyncIgdbGenresAsync();
-            await igdbPlatformsService.SyncIgdbPlatformsAsync();
-            await igdbGamesService.SyncIgdbGamesByPlatformAsync(_xboxSeriesPlatformId);
+            await igdbGenresService.SyncIgdbGenresAsync(stoppingToken);
+            await igdbPlatformsService.SyncIgdbPlatformsAsync(stoppingToken);
+            await igdbGamesService.SyncIgdbGamesByPlatformAsync(_xboxSeriesPlatformId, stoppingToken);
         }
         catch (Exception ex)
         {

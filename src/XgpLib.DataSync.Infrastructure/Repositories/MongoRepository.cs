@@ -17,13 +17,13 @@ public class MongoRepository<T> :
         _collection = database.GetCollection<T>(typeof(T).Name.ToLower());
     }
 
-    public async Task ReplaceOneAsync(T document, bool IsUpsert = false)
+    public async Task ReplaceOneAsync(T document, CancellationToken stoppingToken, bool IsUpsert = false)
     {
         FindOneAndReplaceOptions<T, T> options = new()
         {
             IsUpsert = IsUpsert
         };
         FilterDefinition<T> filter = Builders<T>.Filter.Eq(o => o.Id, document.Id);
-        await _collection.FindOneAndReplaceAsync(filter, document, options);
+        await _collection.FindOneAndReplaceAsync(filter, document, options, stoppingToken);
     }
 }

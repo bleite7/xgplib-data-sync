@@ -8,7 +8,7 @@ public class IgdbPlatformsService(
     IIgdbDataService igdbDataService,
     IMongoRepository<Platform> platformsRepository) : IIgdbPlatformsService
 {
-    public async Task SyncIgdbPlatformsAsync()
+    public async Task SyncIgdbPlatformsAsync(CancellationToken stoppingToken)
     {
         Stopwatch stopWatch = new();
         stopWatch.Start();
@@ -23,7 +23,7 @@ public class IgdbPlatformsService(
             {
                 await platformsRepository.ReplaceOneAsync(new Platform(
                     platform.Id,
-                    platform.Name), true);
+                    platform.Name), stoppingToken, true);
 
                 logger.LogInformation(
                     "Platform {id} {name}",

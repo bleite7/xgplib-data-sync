@@ -3,7 +3,6 @@ using System.Diagnostics;
 namespace XgpLib.DataSync.Worker;
 
 public class SyncWorker(
-    IHostApplicationLifetime hostApplicationLifetime,
     ILogger<SyncWorker> logger,
     ISyncData syncData) : BackgroundService
 {
@@ -12,27 +11,29 @@ public class SyncWorker(
         Stopwatch stopWatch = new();
         stopWatch.Start();
 
-        try
+        while (!stoppingToken.IsCancellationRequested)
         {
-            logger.LogInformation("SyncWorker is starting.");
+            try
+            {
+                logger.LogInformation("SyncWorker is starting.");
 
-            // Sync IGDB data
-            await syncData.SyncIgdbDataAsync();
+                // Sync IGDB data
+                await syncData.SyncIgdbDataAsync(stoppingToken);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "An error occurred while syncing data.");
+            }
+            finally
+            {
+                stopWatch.Stop();
+                logger.LogInformation(
+                    "{methodName} elapsed time: {elapsedTime} ms",
+                    nameof(ExecuteAsync),
+                    stopWatch.ElapsedMilliseconds);
+            }
 
-            // When completed, the entire app host will stop.
-            hostApplicationLifetime.StopApplication();
-        }
-        catch (Exception ex)
-        {
-            logger.LogError(ex, "An error occurred while syncing data.");
-        }
-        finally
-        {
-            stopWatch.Stop();
-            logger.LogInformation(
-                "{methodName} elapsed time: {elapsedTime} ms",
-                nameof(ExecuteAsync),
-                stopWatch.ElapsedMilliseconds);
+            await Task.Delay(60_000, stoppingToken);
         }
     }
 }
