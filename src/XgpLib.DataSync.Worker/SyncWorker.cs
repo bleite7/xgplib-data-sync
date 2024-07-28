@@ -1,5 +1,4 @@
-using XgpLib.DataSync.Worker.Core.Domain.Services;
-using XgpLib.DataSync.Worker.Core.Domain.UseCases;
+using System.Diagnostics;
 
 namespace XgpLib.DataSync.Worker;
 
@@ -10,12 +9,30 @@ public class SyncWorker(
 {
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        logger.LogInformation("SyncWorker is starting.");
+        Stopwatch stopWatch = new();
+        stopWatch.Start();
 
-        // Sync IGDB data
-        await syncData.SyncIgdbDataAsync();
+        try
+        {
+            logger.LogInformation("SyncWorker is starting.");
 
-        // When completed, the entire app host will stop.
-        hostApplicationLifetime.StopApplication();
+            // Sync IGDB data
+            await syncData.SyncIgdbDataAsync();
+
+            // When completed, the entire app host will stop.
+            hostApplicationLifetime.StopApplication();
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "An error occurred while syncing data.");
+        }
+        finally
+        {
+            stopWatch.Stop();
+            logger.LogInformation(
+                "{methodName} elapsed time: {elapsedTime} ms",
+                nameof(ExecuteAsync),
+                stopWatch.ElapsedMilliseconds);
+        }
     }
 }

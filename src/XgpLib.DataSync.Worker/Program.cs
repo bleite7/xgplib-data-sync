@@ -1,11 +1,6 @@
-using System.Runtime.CompilerServices;
-using IGDB;
 using Serilog;
-using XgpLib.DataSync.Worker.Core.Domain.Repositories;
-using XgpLib.DataSync.Worker.Core.Domain.Services;
-using XgpLib.DataSync.Worker.Core.Infrastructure;
-using XgpLib.DataSync.Worker.Core.Infrastructure.Repositories;
-using XgpLib.DataSync.Worker.Core.Infrastructure.Services;
+using Serilog.Events;
+using System.Diagnostics;
 
 namespace XgpLib.DataSync.Worker;
 
@@ -15,19 +10,27 @@ public class Program
     {
         try
         {
+            // Create the host builder
+            var builder = Host.CreateApplicationBuilder(args);
+
             // Register Serilog
             Log.Logger = new LoggerConfiguration()
                 .Enrich.FromLogContext()
+                // Write logs to MongoDB
+                .WriteTo.MongoDBBson(
+                    $"{builder.Configuration["MongoDB:ConnectionString"]}/logs?authSource=admin", 
+                    restrictedToMinimumLevel: LogEventLevel.Warning)
                 .WriteTo.Console()
                 .CreateLogger();
-
-            // Create the host builder
-            var builder = Host.CreateApplicationBuilder(args);
 
             // Add infrastructure services
             DependencyInjection.AddInfrastructureServices(
                 builder.Services,
                 builder.Configuration);
+
+            // Register worker
+            builder.Services.AddHostedService<SyncWorker>();
+            builder.Services.AddSerilog();
 
             // Build and run the host
             var host = builder.Build();

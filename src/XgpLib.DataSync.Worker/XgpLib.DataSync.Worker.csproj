@@ -8,17 +8,17 @@
     <DockerfileContext>..\..</DockerfileContext>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="IGDB" Version="5.1.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.0" />
-    <PackageReference Include="MongoDB.Bson" Version="2.28.0" />
-    <PackageReference Include="MongoDB.Driver" Version="2.28.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="Serilog.Extensions.Hosting" Version="8.0.0" />
     <PackageReference Include="Serilog.Sinks.Console" Version="6.0.0" />
+    <PackageReference Include="Serilog.Sinks.MongoDB" Version="5.4.1" />
     <PackageReference Include="System.Text.Json" Version="8.0.4" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Core\Application\UseCases\" />
+    <ProjectReference Include="..\XgpLib.DataSync.Application\XgpLib.DataSync.Application.csproj" />
+    <ProjectReference Include="..\XgpLib.DataSync.Domain\XgpLib.DataSync.Domain.csproj" />
+    <ProjectReference Include="..\XgpLib.DataSync.Infrastructure\XgpLib.DataSync.Infrastructure.csproj" />
   </ItemGroup>
 </Project>
