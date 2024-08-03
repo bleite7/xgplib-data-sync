@@ -4,9 +4,9 @@ namespace XgpLib.DataSync.Application.UseCases;
 
 public class SyncData(
     ILogger<SyncData> logger,
+    IIgdbGamesService igdbGamesService,
     IIgdbGenresService igdbGenresService,
-    IIgdbPlatformsService igdbPlatformsService,
-    IIgdbGamesService igdbGamesService) : ISyncData
+    IIgdbPlatformsService igdbPlatformsService) : ISyncData
 {
     private const long _xboxSeriesPlatformId = 169;
 
@@ -17,9 +17,9 @@ public class SyncData(
 
         try
         {
+            await igdbGamesService.SyncIgdbGamesByPlatformAsync(_xboxSeriesPlatformId, stoppingToken);
             await igdbGenresService.SyncIgdbGenresAsync(stoppingToken);
             await igdbPlatformsService.SyncIgdbPlatformsAsync(stoppingToken);
-            await igdbGamesService.SyncIgdbGamesByPlatformAsync(_xboxSeriesPlatformId, stoppingToken);
         }
         catch (Exception ex)
         {

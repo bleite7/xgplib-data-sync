@@ -9,9 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XgpLib.DataSync.Worker", "s
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XgpLib.DataSync.Domain", "src\XgpLib.DataSync.Domain\XgpLib.DataSync.Domain.csproj", "{63821FD7-176A-4B1B-B9A0-6D26FB2C9BCD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XgpLib.DataSync.Application", "src\XgpLib.DataSync.Application\XgpLib.DataSync.Application.csproj", "{B40648E8-2A08-4C9B-9202-BD9E3F80F48D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XgpLib.DataSync.Application", "src\XgpLib.DataSync.Application\XgpLib.DataSync.Application.csproj", "{B40648E8-2A08-4C9B-9202-BD9E3F80F48D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XgpLib.DataSync.Infrastructure", "src\XgpLib.DataSync.Infrastructure\XgpLib.DataSync.Infrastructure.csproj", "{E1EE0C32-2413-4EFA-A330-92ED15C77E14}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XgpLib.DataSync.Infrastructure", "src\XgpLib.DataSync.Infrastructure\XgpLib.DataSync.Infrastructure.csproj", "{E1EE0C32-2413-4EFA-A330-92ED15C77E14}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

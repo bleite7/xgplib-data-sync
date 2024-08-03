@@ -26,6 +26,9 @@ nupkg/
 *.userosscache
 *.sln.docstates
 
+# Test Results
+[Tt]est[Rr]esult*/
+
 # Build results
 [Dd]ebug/
 [Dd]ebugPublic/
