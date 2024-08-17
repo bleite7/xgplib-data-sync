@@ -13,7 +13,8 @@ public class MongoRepository<T> :
     {
         _configuration = configuration;
 
-        IMongoDatabase database = new MongoClient(_configuration["MongoDB:ConnectionString"]).GetDatabase(_configuration["MongoDB:DatabaseName"]);
+        MongoUrl mongoUrl = new(@_configuration["MongoDB:ConnectionString"]);
+        IMongoDatabase database = new MongoClient(mongoUrl).GetDatabase(mongoUrl.DatabaseName);
         _collection = database.GetCollection<T>(typeof(T).Name.ToLower());
     }
 
