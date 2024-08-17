@@ -15,10 +15,6 @@ public class Program
             // Register Serilog
             Log.Logger = new LoggerConfiguration()
                 .Enrich.FromLogContext()
-                // Write logs to MongoDB
-                .WriteTo.MongoDBBson(
-                    $"{builder.Configuration["MongoDB:ConnectionString"]}/logs?authSource=admin",
-                    restrictedToMinimumLevel: LogEventLevel.Warning)
                 .WriteTo.Console()
                 .CreateLogger();
 
