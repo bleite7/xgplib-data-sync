@@ -34,7 +34,6 @@ public class SyncWorker(
                     "{className} elapsed time: {elapsedTime} ms",
                     nameof(SyncWorker),
                     stopWatch.ElapsedMilliseconds);
-                stopWatch.Reset();
             }
 
             double intervalInMinutes = double.Parse(configuration["SyncWorker:IntervalInMinutes"] ??= "0");
