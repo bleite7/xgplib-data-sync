@@ -4,21 +4,24 @@ namespace XgpLib.DataSync.Worker;
 
 public class SyncWorker(
     ILogger<SyncWorker> logger,
+    IConfiguration configuration,
     ISyncData syncData) : BackgroundService
 {
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         Stopwatch stopWatch = new();
-        stopWatch.Start();
-
         while (!stoppingToken.IsCancellationRequested)
         {
+            stopWatch.Start();
             try
             {
-                logger.LogInformation("SyncWorker is starting.");
+                logger.LogInformation("{className} is starting.",
+                    nameof(SyncWorker));
 
                 // Sync IGDB data
                 await syncData.SyncIgdbDataAsync(stoppingToken);
+
+                logger.LogInformation("IGDB data synced successfully.");
             }
             catch (Exception ex)
             {
@@ -28,12 +31,14 @@ public class SyncWorker(
             {
                 stopWatch.Stop();
                 logger.LogInformation(
-                    "{methodName} elapsed time: {elapsedTime} ms",
-                    nameof(ExecuteAsync),
+                    "{className} elapsed time: {elapsedTime}ms",
+                    nameof(SyncWorker),
                     stopWatch.ElapsedMilliseconds);
+                stopWatch.Reset();
             }
 
-            await Task.Delay(60_000, stoppingToken);
+            double intervalInMinutes = double.Parse(configuration["SyncWorker:IntervalInMinutes"] ??= "0");
+            await Task.Delay(TimeSpan.FromMinutes(intervalInMinutes), stoppingToken);
         }
     }
 }

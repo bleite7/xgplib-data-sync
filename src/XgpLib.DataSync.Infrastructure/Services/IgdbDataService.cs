@@ -1,5 +1,4 @@
 using IGDB;
-using System.Diagnostics;
 
 namespace XgpLib.DataSync.Infrastructure.Services;
 
@@ -7,67 +6,43 @@ public class IgdbDataService(
     ILogger<IgdbDataService> logger,
     IGDBClient igdbClient) : IIgdbDataService
 {
-    private const int _limit = 100;
+    private const int _limit = 200;
 
     public async Task<List<T>> ListAllAsync<T>(
         string endpoint,
         string[] fields,
         string additionalQuery = "") where T : class
     {
-        Stopwatch stopWatch = new();
-        stopWatch.Start();
-
         int offset = 0;
         List<T> items = [];
-        T[] igdbItems = [];
-        try
+        T[] igdbItems;
+
+        logger.LogInformation(
+            "Fetching {entityName}(s) from IGDB",
+            typeof(T).Name);
+
+        do
         {
-            logger.LogInformation(
-                "Fetching {entityName}(s) from IGDB",
-                typeof(T).Name);
+            string query = BuildQuery(fields, offset, additionalQuery);
+            igdbItems = await igdbClient.QueryAsync<T>(
+                endpoint,
+                query);
 
-            do
-            {
-                string query = BuildQuery(fields, offset, additionalQuery);
-                igdbItems = await igdbClient.QueryAsync<T>(
-                    endpoint,
-                    query);
+            items.AddRange(igdbItems);
+            offset += _limit;
+        } while (igdbItems.Length == _limit);
 
-                items.AddRange(igdbItems);
-                offset += _limit;
-            } while (igdbItems.Length == _limit);
+        logger.LogInformation(
+            "Fetched {count} {entityName}(s) from IGDB",
+            items.Count,
+            typeof(T).Name);
 
-            logger.LogInformation(
-                "Fetched {count} {entityName}(s) from IGDB",
-                items.Count,
-                typeof(T).Name);
-
-            return items;
-        }
-        catch (Exception ex)
-        {
-            logger.LogError(
-                ex,
-                "Error while fetching {entityName}(s) from IGDB",
-                typeof(T).Name);
-
-            throw;
-        }
-        finally
-        {
-            stopWatch.Stop();
-
-            logger.LogInformation(
-                "{methodName} of {entityName}(s) took {elapsed} ms",
-                nameof(ListAllAsync),
-                typeof(T).Name,
-                stopWatch.ElapsedMilliseconds);
-        }
+        return items;
     }
 
     #region Private Methods
 
-    private string BuildQuery(
+    private static string BuildQuery(
         string[] fields,
         int offset,
         string additionalQuery)
