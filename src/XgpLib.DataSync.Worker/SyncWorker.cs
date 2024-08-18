@@ -9,9 +9,9 @@ public class SyncWorker(
 {
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        Stopwatch stopWatch = new();
         while (!stoppingToken.IsCancellationRequested)
         {
+            Stopwatch stopWatch = new();
             stopWatch.Start();
             try
             {
@@ -31,7 +31,7 @@ public class SyncWorker(
             {
                 stopWatch.Stop();
                 logger.LogInformation(
-                    "{className} elapsed time: {elapsedTime}ms",
+                    "{className} elapsed time: {elapsedTime} ms",
                     nameof(SyncWorker),
                     stopWatch.ElapsedMilliseconds);
                 stopWatch.Reset();
