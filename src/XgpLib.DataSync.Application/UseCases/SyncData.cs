@@ -1,5 +1,3 @@
-using System.Diagnostics;
-
 namespace XgpLib.DataSync.Application.UseCases;
 
 public class SyncData(

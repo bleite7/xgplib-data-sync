@@ -13,6 +13,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XgpLib.DataSync.Application
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XgpLib.DataSync.Infrastructure", "src\XgpLib.DataSync.Infrastructure\XgpLib.DataSync.Infrastructure.csproj", "{E1EE0C32-2413-4EFA-A330-92ED15C77E14}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{D3E5A68A-691E-4888-B42B-1A28B1F3E710}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XgpLib.DataSync.Application.UnitTests", "tests\XgpLib.DataSync.Application.UnitTests\XgpLib.DataSync.Application.UnitTests.csproj", "{15EF8FB1-4D33-486E-B5A4-B68A2F284C6B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +39,10 @@ Global
 		{E1EE0C32-2413-4EFA-A330-92ED15C77E14}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E1EE0C32-2413-4EFA-A330-92ED15C77E14}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E1EE0C32-2413-4EFA-A330-92ED15C77E14}.Release|Any CPU.Build.0 = Release|Any CPU
+		{15EF8FB1-4D33-486E-B5A4-B68A2F284C6B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{15EF8FB1-4D33-486E-B5A4-B68A2F284C6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{15EF8FB1-4D33-486E-B5A4-B68A2F284C6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{15EF8FB1-4D33-486E-B5A4-B68A2F284C6B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -44,6 +52,7 @@ Global
 		{63821FD7-176A-4B1B-B9A0-6D26FB2C9BCD} = {E078B51D-85C8-4F6B-9AAC-5E671278020E}
 		{B40648E8-2A08-4C9B-9202-BD9E3F80F48D} = {E078B51D-85C8-4F6B-9AAC-5E671278020E}
 		{E1EE0C32-2413-4EFA-A330-92ED15C77E14} = {E078B51D-85C8-4F6B-9AAC-5E671278020E}
+		{15EF8FB1-4D33-486E-B5A4-B68A2F284C6B} = {D3E5A68A-691E-4888-B42B-1A28B1F3E710}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A04EC9AA-E9CC-48CE-8D23-F9113D0FADF7}
