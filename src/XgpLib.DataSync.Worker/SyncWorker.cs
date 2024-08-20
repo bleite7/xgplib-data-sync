@@ -15,7 +15,8 @@ public class SyncWorker(
             stopWatch.Start();
             try
             {
-                logger.LogInformation("{className} is starting.",
+                logger.LogInformation(
+                    "{className} is starting.",
                     nameof(SyncWorker));
 
                 // Sync IGDB data
@@ -36,8 +37,8 @@ public class SyncWorker(
                     stopWatch.ElapsedMilliseconds);
             }
 
-            double intervalInMinutes = double.Parse(configuration["SyncWorker:IntervalInMinutes"] ??= "0");
-            await Task.Delay(TimeSpan.FromMinutes(intervalInMinutes), stoppingToken);
+            var intervalInMinutesFromConfig = configuration["SyncWorker:IntervalInMinutes"] ??= "0";
+            await Task.Delay(TimeSpan.FromMinutes(double.Parse(intervalInMinutesFromConfig)), stoppingToken);
         }
     }
 }
