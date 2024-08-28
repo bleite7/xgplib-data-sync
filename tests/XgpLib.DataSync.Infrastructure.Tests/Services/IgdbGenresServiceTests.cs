@@ -14,7 +14,6 @@ public class IgdbGenresServiceTests
     public async Task SyncIgdbGenresAsync_ShouldSyncGenres()
     {
         // Arrange
-        var platformId = 169;
         Mock<ILogger<IgdbGenresService>> loggerMock = new();
         Mock<IIgdbDataService> igdbDataServiceMock = new();
         Mock<IMongoRepository<Domain.Entities.Genre>> genresRepositoryMock = new();
