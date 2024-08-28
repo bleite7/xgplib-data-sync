@@ -1,7 +1,9 @@
 using IGDB;
 using IGDB.Models;
+using Microsoft.Extensions.Logging;
 using Moq;
 using XgpLib.DataSync.Domain.Services;
+using XgpLib.DataSync.Infrastructure.Services;
 
 namespace XgpLib.DataSync.Infrastructure.Tests.Services;
 
@@ -11,29 +13,21 @@ public class IgdbDataServiceTests
     public async Task ListAllAsync_ShouldReturnListOfGames()
     {
         // Arrange
-        Mock<IIgdbDataService> mockIgdbDataService = new();
-        List<Game> expectedGames =
-        [
-            new Game { Id = 1, Name = "Game 1" },
-            new Game { Id = 2, Name = "Game 2" }
-        ];
-        mockIgdbDataService.Setup(service => service.ListAllAsync<Game>(
-            IGDBClient.Endpoints.Games,
-            new string[] { "id", "name" },
-            ""))
-            .ReturnsAsync(expectedGames);
+        Mock<ILogger<IgdbDataService>> mockLogger = new();
+        IIgdbDataService igdbDataService = new IgdbDataService(mockLogger.Object, new IGDBClient(
+            Environment.GetEnvironmentVariable("IGDB_CLIENT_ID"),
+            Environment.GetEnvironmentVariable("IGDB_CLIENT_SECRET")));
 
         // Act
-        IIgdbDataService igdbDataService = mockIgdbDataService.Object;
         List<Game> games = await igdbDataService.ListAllAsync<Game>(
             IGDBClient.Endpoints.Games,
-            new string[] { "id", "name" },
-            "");
+            ["id", "name"],
+            "where id = (271033,308051);");
 
         // Assert
         Assert.NotNull(games);
         Assert.Equal(2, games.Count);
-        Assert.Equal("Game 1", games[0].Name);
-        Assert.Equal("Game 2", games[1].Name);
+        Assert.Equal("Hell Well", games[0].Name);
+        Assert.Equal("Double Dragon Revive", games[1].Name);
     }
 }
