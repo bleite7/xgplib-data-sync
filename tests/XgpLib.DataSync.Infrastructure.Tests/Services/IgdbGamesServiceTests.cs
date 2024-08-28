@@ -29,7 +29,10 @@ public class IgdbGamesServiceTests
             new[] { "id", "name" },
             $"where platforms = [{platformId}];")).ReturnsAsync(games);
 
-        var service = new IgdbGamesService(loggerMock.Object, igdbDataServiceMock.Object, gamesRepositoryMock.Object);
+        var service = new IgdbGamesService(
+            loggerMock.Object,
+            igdbDataServiceMock.Object,
+            gamesRepositoryMock.Object);
 
         // Act
         await service.SyncIgdbGamesByPlatformAsync(platformId, CancellationToken.None);
