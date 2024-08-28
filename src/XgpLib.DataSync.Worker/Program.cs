@@ -1,7 +1,9 @@
 using Serilog;
+using System.Diagnostics.CodeAnalysis;
 
 namespace XgpLib.DataSync.Worker;
 
+[ExcludeFromCodeCoverage]
 public static class Program
 {
     public static void Main(string[] args)

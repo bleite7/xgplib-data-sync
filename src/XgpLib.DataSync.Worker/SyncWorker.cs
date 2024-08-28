@@ -1,7 +1,9 @@
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 
 namespace XgpLib.DataSync.Worker;
 
+[ExcludeFromCodeCoverage]
 public class SyncWorker(
     ILogger<SyncWorker> logger,
     IConfiguration configuration,
