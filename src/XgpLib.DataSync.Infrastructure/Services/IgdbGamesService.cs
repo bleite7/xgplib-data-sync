@@ -1,10 +1,9 @@
-using System.Diagnostics;
 using IGDB;
 
 namespace XgpLib.DataSync.Infrastructure.Services;
 
 public class IgdbGamesService(
-    ILogger<IgdbPlatformsService> logger,
+    ILogger<IgdbGamesService> logger,
     IIgdbDataService igdbDataService,
     IMongoRepository<Game> gamesRepository) : IIgdbGamesService
 {
