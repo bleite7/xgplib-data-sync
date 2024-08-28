@@ -1,6 +1,5 @@
 using Moq;
 using XgpLib.DataSync.Application.UseCases;
-using XgpLib.DataSync.Domain.Entities;
 using XgpLib.DataSync.Domain.Services;
 
 namespace XgpLib.DataSync.Application.UnitTests;
@@ -10,7 +9,7 @@ public class SyncDataTests
     private const long _xboxSeriesPlatformId = 169;
 
     [Fact]
-    public async Task SyncIgdbDataAsync()
+    public async Task SyncIgdbDataAsync_ShouldCallSyncIgdbMethodsAsync_Once()
     {
         // Arrange
         Mock<IIgdbGamesService> mockIgdbGamesService = new Mock<IIgdbGamesService>();

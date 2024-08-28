@@ -24,8 +24,7 @@
 		</PackageReference>
 	</ItemGroup>
 	<ItemGroup>
-		<ProjectReference Include="..\..\src\XgpLib.DataSync.Application\XgpLib.DataSync.Application.csproj" />
-		<ProjectReference Include="..\..\src\XgpLib.DataSync.Domain\XgpLib.DataSync.Domain.csproj" />
+		<ProjectReference Include="..\..\src\XgpLib.DataSync.Infrastructure\XgpLib.DataSync.Infrastructure.csproj" />
 	</ItemGroup>
 	<ItemGroup>
 		<Using Include="Xunit" />
