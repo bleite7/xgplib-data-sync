@@ -18,4 +18,4 @@
 
 ## 🚀 About
 
-**IGDB Data Sync** is an IGBD database data synchronizer.
+**XGPLib Data Sync** is an IGBD database data synchronizer.
