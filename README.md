@@ -1,4 +1,4 @@
-# xgplib-data-sync
+# XGPLib Data Sync
 
 [![.NET](https://github.com/bleite7/xgplib-data-sync/actions/workflows/dotnet.yml/badge.svg)](https://github.com/bleite7/xgplib-data-sync/actions/workflows/dotnet.yml) 
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=bleite7_xgplib-data-sync&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=bleite7_xgplib-data-sync) 
