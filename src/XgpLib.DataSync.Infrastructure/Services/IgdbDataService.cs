@@ -18,7 +18,7 @@ public class IgdbDataService(
         T[] igdbItems;
 
         logger.LogInformation(
-            "Fetching {entityName}(s) from IGDB",
+            "Fetching {EntityName}(s) from IGDB",
             typeof(T).Name);
 
         do
@@ -33,7 +33,7 @@ public class IgdbDataService(
         } while (igdbItems.Length == _limit);
 
         logger.LogInformation(
-            "Fetched {count} {entityName}(s) from IGDB",
+            "Fetched {Count} {EntityName}(s) from IGDB",
             items.Count,
             typeof(T).Name);
 

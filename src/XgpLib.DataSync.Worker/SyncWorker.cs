@@ -18,7 +18,7 @@ public class SyncWorker(
             try
             {
                 logger.LogInformation(
-                    "{className} is starting.",
+                    "{ClassName} is starting.",
                     nameof(SyncWorker));
 
                 // Sync IGDB data
@@ -34,7 +34,7 @@ public class SyncWorker(
             {
                 stopWatch.Stop();
                 logger.LogInformation(
-                    "{className} elapsed time: {elapsedTime} ms",
+                    "{className} elapsed time: {ElapsedTime} ms",
                     nameof(SyncWorker),
                     stopWatch.ElapsedMilliseconds);
             }

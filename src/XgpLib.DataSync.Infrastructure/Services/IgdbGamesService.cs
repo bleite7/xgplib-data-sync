@@ -9,7 +9,7 @@ public class IgdbGamesService(
 {
     public async Task SyncIgdbGamesByPlatformAsync(long platformId, CancellationToken stoppingToken)
     {
-        logger.LogInformation("Syncing Game(s) for platform {platformId}", platformId);
+        logger.LogInformation("Syncing Game(s) for platform {PlatformId}", platformId);
 
         List<IGDB.Models.Game> games = await igdbDataService.ListAllAsync<IGDB.Models.Game>(
             IGDBClient.Endpoints.Games,
@@ -23,6 +23,6 @@ public class IgdbGamesService(
                 game.Name), stoppingToken, true);
         }
 
-        logger.LogInformation("Game(s) for platform {platformId} synced successfully.", platformId);
+        logger.LogInformation("Game(s) for platform {PlatformId} synced successfully.", platformId);
     }
 }
