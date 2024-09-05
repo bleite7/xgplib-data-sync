@@ -34,7 +34,7 @@ public class SyncWorker(
             {
                 stopWatch.Stop();
                 logger.LogInformation(
-                    "{className} elapsed time: {ElapsedTime} ms",
+                    "{ClassName} elapsed time: {ElapsedTime} ms",
                     nameof(SyncWorker),
                     stopWatch.ElapsedMilliseconds);
             }
