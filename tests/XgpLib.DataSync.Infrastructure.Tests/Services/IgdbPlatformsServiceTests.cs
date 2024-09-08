@@ -10,6 +10,8 @@ namespace XgpLib.DataSync.Infrastructure.Tests.Services;
 
 public class IgdbPlatformsServiceTests
 {
+    private static readonly string[] platformsFields = ["id", "name"];
+
     [Fact]
     public async Task SyncIgdbPlatformsAsync_ShouldSyncGenres()
     {
@@ -25,7 +27,7 @@ public class IgdbPlatformsServiceTests
 
         igdbDataServiceMock.Setup(x => x.ListAllAsync<Platform>(
             IGDBClient.Endpoints.Platforms,
-            new[] { "id", "name" },
+            platformsFields,
             "")).ReturnsAsync(platforms);
 
         var service = new IgdbPlatformsService(

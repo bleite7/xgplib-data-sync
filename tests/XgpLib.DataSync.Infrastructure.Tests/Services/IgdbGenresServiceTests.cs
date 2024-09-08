@@ -10,6 +10,8 @@ namespace XgpLib.DataSync.Infrastructure.Tests.Services;
 
 public class IgdbGenresServiceTests
 {
+    private static readonly string[] genresFields = ["id", "name"];
+
     [Fact]
     public async Task SyncIgdbGenresAsync_ShouldSyncGenres()
     {
@@ -25,7 +27,7 @@ public class IgdbGenresServiceTests
 
         igdbDataServiceMock.Setup(x => x.ListAllAsync<Genre>(
             IGDBClient.Endpoints.Genres,
-            new[] { "id", "name" },
+            genresFields,
             "")).ReturnsAsync(genres);
 
         var service = new IgdbGenresService(

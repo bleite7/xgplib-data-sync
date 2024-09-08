@@ -14,7 +14,7 @@ public class IgdbDataServiceTests
     {
         // Arrange
         Mock<ILogger<IgdbDataService>> mockLogger = new();
-        IIgdbDataService igdbDataService = new IgdbDataService(
+        IgdbDataService igdbDataService = new(
             mockLogger.Object,
             new IGDBClient(
                 Environment.GetEnvironmentVariable("IGDB_CLIENT_ID"),
