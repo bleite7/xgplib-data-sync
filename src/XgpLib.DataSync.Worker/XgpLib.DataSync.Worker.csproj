@@ -14,7 +14,7 @@
 		<PackageReference Include="Serilog.Extensions.Hosting" Version="8.0.0" />
 		<PackageReference Include="Serilog.Sinks.Console" Version="6.0.0" />
 		<PackageReference Include="Serilog.Sinks.MongoDB" Version="5.4.1" />
-		<PackageReference Include="System.Text.Json" Version="8.0.4" />
+		<PackageReference Include="System.Text.Json" Version="8.0.5" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\XgpLib.DataSync.Application\XgpLib.DataSync.Application.csproj" />
